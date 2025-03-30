@@ -17,6 +17,7 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $password2;
     /**
      * {@inheritdoc}
      */
@@ -31,9 +32,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'FIO', 'number', 'email'], 'required'],
+            [['username', 'password', 'password2', 'FIO', 'number', 'email'], 'required', 'message' => 'Обязательное поле'],
             [['username', 'password', 'FIO', 'number', 'email'], 'string', 'max' => 50],
             [['role'], 'string', 'max' => 30],
+            ['role', 'default', 'value' => 0],
+            ['username', 'unique', 'message' => 'Логин должен быть уникальным'],
+            ['FIO', 'match', 'pattern' => '/^[А-яЁё -]*$/u', 'message' => 'ФИО должно содержать только кириллицу'],
+            ['email', 'email', 'message' => 'Почта введена некорректно'],
+            ['password2', 'compare', 'compareAttribute' => 'password', 'message' => 'Пароли не совпадают'],
+            ['password', 'string', 'min' => 6, 'tooShort' => 'Поле должно содержать минимум 6 символов'],
         ];
     }
 
@@ -44,11 +51,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'FIO' => 'Fio',
-            'number' => 'Number',
-            'email' => 'Email',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'password2' => 'Повторение пароля',
+            'FIO' => 'ФИО',
+            'number' => 'Номер телефона',
+            'email' => 'Почта',
             'role' => 'Role',
         ];
     }
@@ -109,6 +117,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return $this->password === md5($password);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->password = md5($this->password);
+        return parent::beforeSave($insert);
     }
 }
