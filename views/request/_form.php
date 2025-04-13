@@ -44,7 +44,15 @@ use app\models\Type;
 
     <?= $form->field($model, 'id_type')->dropdownList($type) ?>
 
-    <?= $form->field($model, 'another')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'another', ['options' => ['id' => 'another-field', 'style' => 'display:none']])->textInput(['maxlength' => true]) ?>
+
+    <?php
+    $this->registerJs("
+        $('#request-id_type').on('change', function() {
+            $('#another-field').toggle($(this).val() == '5');
+        }).trigger('change');
+    ");
+    ?>
 
     <?= $form->field($model, 'id_pay')->dropdownList($pay) ?>
 

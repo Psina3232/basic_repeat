@@ -44,6 +44,11 @@ class Request extends \yii\db\ActiveRecord
             [['address', 'number', 'date', 'time', 'another'], 'string', 'max' => 50],
             ['id_status', 'default', 'value' => 1],
             ['another', 'default', 'value' => null],
+            ['another', 'required', 'when' => function ($model) {
+                return $model->id_type == 5;
+            }, 'whenClient' => "function (attribute, value) {
+                return $('#request-id_type').val() == '5';
+            }"],
             ['id_user', 'default', 'value' => Yii::$app->user->identity->getId()],
             [['id_pay'], 'exist', 'skipOnError' => true, 'targetClass' => Pay::class, 'targetAttribute' => ['id_pay' => 'id']],
             [['id_status'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['id_status' => 'id']],
