@@ -9,15 +9,11 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Мои заявки';
+$this->title = 'Панель администратора';
 ?>
 <div class="request-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Request', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
 
     <?= GridView::widget([
@@ -44,7 +40,7 @@ $this->title = 'Мои заявки';
             'label' => 'Статус'
             ], 
             "cancel_reason",
-            //'id_user',
+            'user.FIO',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Request $model, $key, $index, $column) {

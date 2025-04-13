@@ -49,6 +49,12 @@ class Request extends \yii\db\ActiveRecord
             [['id_status'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['id_status' => 'id']],
             [['id_type'], 'exist', 'skipOnError' => true, 'targetClass' => Type::class, 'targetAttribute' => ['id_type' => 'id']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
+            ['cancel_reason', 'string', 'max' => 255],
+            ['cancel_reason', 'required', 'when' => function ($model) {
+                return $model->id_status == 3;
+            }, 'whenClient' => "function (attribute, value) {
+                return $('#request-id_status').val() == '3';
+            }", 'message' => 'Укажите причину отмены'],
         ];
     }
 
@@ -68,6 +74,7 @@ class Request extends \yii\db\ActiveRecord
             'id_pay' => 'Тип оплаты',
             'id_status' => 'Id Status',
             'id_user' => 'Id User',
+            'cancel_reason' => 'Причина отмены',
         ];
     }
 

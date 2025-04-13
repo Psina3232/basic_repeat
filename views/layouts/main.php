@@ -40,9 +40,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Главная', 'url' => ['/site/index']],
-            ['label' => 'Регистрация', 'url' => ['/user/create']],
+            ['label' => 'Регистрация', 'url' => ['/user/create'], 'visible' => Yii::$app->user->isGuest],
             ['label' => 'Создать заявку', 'url' => ['/request/create'], 'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Мои заявки', 'url' => ['/request/index'], 'visible' => !Yii::$app->user->isGuest],
+            ['label' => 'Панель администратора', 'url' => ['/admin/index'], 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->identity->IsAdmin()],
             Yii::$app->user->isGuest
                 ? ['label' => 'Авторизация', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
@@ -72,8 +73,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
         <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
-            <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
+            <div class="col-md-6 text-center text-md-start">&copy; Мой Не Сам <?= date('Y') ?></div>
         </div>
     </div>
 </footer>
