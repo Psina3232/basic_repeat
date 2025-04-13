@@ -39,9 +39,12 @@ class Request extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['address', 'number', 'date', 'time', 'id_type', 'id_pay', 'id_status', 'id_user'], 'required'],
+            [['address', 'number', 'date', 'time', 'id_type', 'id_pay'], 'required'],
             [['id_type', 'id_pay', 'id_status', 'id_user'], 'integer'],
             [['address', 'number', 'date', 'time', 'another'], 'string', 'max' => 50],
+            ['id_status', 'default', 'value' => 1],
+            ['another', 'default', 'value' => null],
+            ['id_user', 'default', 'value' => Yii::$app->user->identity->getId()],
             [['id_pay'], 'exist', 'skipOnError' => true, 'targetClass' => Pay::class, 'targetAttribute' => ['id_pay' => 'id']],
             [['id_status'], 'exist', 'skipOnError' => true, 'targetClass' => Status::class, 'targetAttribute' => ['id_status' => 'id']],
             [['id_type'], 'exist', 'skipOnError' => true, 'targetClass' => Type::class, 'targetAttribute' => ['id_type' => 'id']],
@@ -56,13 +59,13 @@ class Request extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'address' => 'Address',
-            'number' => 'Number',
-            'date' => 'Date',
-            'time' => 'Time',
-            'id_type' => 'Id Type',
-            'another' => 'Another',
-            'id_pay' => 'Id Pay',
+            'address' => 'Адрес',
+            'number' => 'Номер телефона',
+            'date' => 'Дата',
+            'time' => 'Время',
+            'id_type' => 'Тип услуги',
+            'another' => 'Иная услуга',
+            'id_pay' => 'Тип оплаты',
             'id_status' => 'Id Status',
             'id_user' => 'Id User',
         ];

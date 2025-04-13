@@ -26,15 +26,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'address',
             'number',
             'date',
             'time',
-            //'id_type',
-            //'another',
-            //'id_pay',
-            //'id_status',
+            [
+            'attribute'=>'type.name',
+            'label' => 'Тип услуги'
+            ],  
+            'another',
+            [
+            'attribute'=>'pay.name',
+            'label' => 'Тип оплаты'
+            ],  
+            [
+            'attribute'=>'status.name',
+            'label' => 'Статус'
+            ], 
             //'id_user',
             [
                 'class' => ActionColumn::className(),
